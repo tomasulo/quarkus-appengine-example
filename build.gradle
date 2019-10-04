@@ -1,0 +1,45 @@
+// this block is necessary to make enforcedPlatform work for Quarkus plugin available
+// only locally (snapshot) that is also importing the Quarkus BOM
+buildscript {
+    repositories {
+        mavenLocal()
+    }
+    dependencies {
+        classpath "io.quarkus:quarkus-gradle-plugin:${quarkusVersion}"
+    }
+}
+
+plugins {
+    id 'java'
+    id "io.freefair.lombok" version "4.0.1"
+}
+
+apply plugin: 'io.quarkus'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+group = 'de.tomasulo.appengine'   // Generated output GroupId
+version = '1.0-SNAPSHOT'          // Version in generated output
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+lombok {
+    version = "1.18.8"
+}
+
+dependencies {
+    implementation enforcedPlatform("io.quarkus:quarkus-bom:${quarkusVersion}")
+    implementation 'io.quarkus:quarkus-resteasy'
+    //implementation 'io.quarkus:quarkus-flyway'
+    //implementation 'io.quarkus:quarkus-jdbc-postgresql'
+    //implementation 'io.quarkus:quarkus-hibernate-orm-panache'
+
+
+    testImplementation 'io.quarkus:quarkus-junit5'
+    testImplementation 'io.rest-assured:rest-assured'
+}
+
